@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImpactVote - Faculty Feedback System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="background-container">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="progress-container" data-aos="fade-down">
+        <div class="step active" id="step1-indicator">
+            <div class="circle"><i class="fas fa-id-card"></i></div>
+            <p>Login</p>
+        </div>
+        <div class="line"></div>
+        <div class="step" id="step2-indicator">
+            <div class="circle"><i class="fas fa-users"></i></div>
+            <p>Select</p>
+        </div>
+        <div class="line"></div>
+        <div class="step" id="step3-indicator">
+            <div class="circle"><i class="fas fa-poll"></i></div>
+            <p>Vote</p>
+        </div>
+        <div class="line"></div>
+        <div class="step" id="step4-indicator">
+            <div class="circle"><i class="fas fa-chart-pie"></i></div>
+            <p>Result</p>
+        </div>
+    </div>
+
+    <main class="app-container">
+
+        <section id="screen1" class="active-section">
+            <div class="glass-panel hero-panel" data-aos="zoom-in-up">
+                
+                <div class="hero-text">
+                    <h1 class="gradient-text">Impact<span class="highlight">Vote</span></h1>
+                    <p class="subtitle">Secure. Anonymous. Faculty Feedback System.</p>
+                </div>
+
+                <div class="login-box">
+                    <div class="input-group">
+                        <i class="fas fa-user-graduate input-icon"></i>
+                        <input type="text" id="regInput" placeholder="Enter Register Number (e.g., 22BCE1001)" autocomplete="off">
+                    </div>
+                    <p id="loginError" class="error-msg"></p>
+                    
+                    <button id="loginBtn" class="primary-btn glow-btn">
+                        Start Session <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="security-note">
+                    <i class="fas fa-shield-alt"></i> One-time entry per student.
+                </div>
+            </div>
+        </section>
+
+        <section id="screen2" class="hidden-section">
+            <div class="glass-panel wide-panel">
+                <div class="header-row">
+                    <h2>Select Faculty to Rate</h2>
+                    <div class="user-badge" id="displayRegNo">User: ---</div>
+                </div>
+
+                <div class="faculty-grid">
+                    <div class="faculty-card" onclick="selectFaculty(1)" data-id="1">
+                        <div class="avatar av-1"><i class="fas fa-code"></i></div>
+                        <h3>Dr. Arjun Sharma</h3>
+                        <p>Web Development</p>
+                        <span class="status-badge pending">Pending</span>
+                    </div>
+
+                    <div class="faculty-card" onclick="selectFaculty(2)" data-id="2">
+                        <div class="avatar av-2"><i class="fas fa-database"></i></div>
+                        <h3>Prof. Sarah Lee</h3>
+                        <p>Database Systems</p>
+                        <span class="status-badge pending">Pending</span>
+                    </div>
+
+                    <div class="faculty-card" onclick="selectFaculty(3)" data-id="3">
+                        <div class="avatar av-3"><i class="fas fa-network-wired"></i></div>
+                        <h3>Dr. K. Venkat</h3>
+                        <p>Computer Networks</p>
+                        <span class="status-badge pending">Pending</span>
+                    </div>
+
+                    <div class="faculty-card" onclick="selectFaculty(4)" data-id="4">
+                        <div class="avatar av-4"><i class="fas fa-microchip"></i></div>
+                        <h3>Prof. Anita Roy</h3>
+                        <p>Embedded Systems</p>
+                        <span class="status-badge pending">Pending</span>
+                    </div>
+
+                    <div class="faculty-card" onclick="selectFaculty(5)" data-id="5">
+                        <div class="avatar av-5"><i class="fas fa-calculator"></i></div>
+                        <h3>Dr. James Wilson</h3>
+                        <p>Discrete Math</p>
+                        <span class="status-badge pending">Pending</span>
+                    </div>
+                </div>
+
+                <button id="finishBtn" class="primary-btn finish-btn disabled-btn">
+                    View Final Dashboard <i class="fas fa-chart-line"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="screen3" class="hidden-section">
+            <div class="glass-panel voting-panel">
+                <button class="back-btn" onclick="goBackToLobby()"><i class="fas fa-arrow-left"></i> Back</button>
+                
+                <div class="voting-header">
+                    <h2 id="votingTitle">Evaluating...</h2>
+                    <p id="votingSubtitle">Course Name</p>
+                </div>
+
+                <div class="voting-grid">
+                    <div class="vote-item">
+                        <div class="label-box">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <label>Teaching Quality</label>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="teaching">
+                            <span class="value-bubble" id="val-teaching">5</span>
+                        </div>
+                    </div>
+
+                    <div class="vote-item">
+                        <div class="label-box">
+                            <i class="fas fa-comments"></i>
+                            <label>Communication</label>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="communication">
+                            <span class="value-bubble" id="val-communication">5</span>
+                        </div>
+                    </div>
+
+                    <div class="vote-item">
+                        <div class="label-box">
+                            <i class="fas fa-book-open"></i>
+                            <label>Course Content</label>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="content">
+                            <span class="value-bubble" id="val-content">5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="vote-item">
+                        <div class="label-box">
+                            <i class="fas fa-clock"></i>
+                            <label>Punctuality</label>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="10" value="5" class="slider" id="punctuality">
+                            <span class="value-bubble" id="val-punctuality">5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-input-group">
+                    <textarea id="suggestion" placeholder="Specific feedback for this faculty..."></textarea>
+                </div>
+
+                <button id="submitVote" class="primary-btn glow-btn action-btn">
+                    Submit & Return to Lobby <i class="fas fa-check-circle"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="screen4" class="hidden-section">
+            <div class="glass-panel dashboard-panel">
+                <h1>📊 Faculty Performance Analytics</h1>
+                
+                <div class="chart-selector-container">
+                    <p>Select Faculty to View:</p>
+                    <div class="selector-chips" id="resultSelectors">
+                        </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="chart-container">
+                        <canvas id="resultsChart"></canvas>
+                    </div>
+
+                    <div class="insights-container">
+                        <div class="insight-card">
+                            <h4>👨‍🏫 Faculty Name</h4>
+                            <h2 id="res-name">Select a Faculty</h2>
+                        </div>
+
+                        <div class="insight-card winner">
+                            <h4>🏆 Strongest Area</h4>
+                            <p id="res-strong">---</p>
+                        </div>
+
+                        <div class="insight-card weak">
+                            <h4>⚠️ Area of Improvement</h4>
+                            <p id="res-weak">---</p>
+                        </div>
+
+                        <div class="trust-meter-box">
+                            <h4>Overall Performance Score</h4>
+                            <div class="meter-bg">
+                                <div class="meter-fill" id="performanceBar"></div>
+                            </div>
+                            <span id="performance-score">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button id="improveBtn" class="secondary-btn">
+                        <i class="fas fa-magic"></i> Simulate Improvement (All)
+                    </button>
+                    <button onclick="location.reload()" class="restart-btn" title="New Session">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true
+        });
+    </script>
+    <script src="script.js"></script>
+
+</body>
+</html>
